@@ -1,15 +1,50 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.Random;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Scanner input = new Scanner(System.in);
+        Random rnd = new Random();
+        boolean playAgain = true;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        while(playAgain){
+            int die1 = rnd.nextInt(6) + 1;
+            int die2 = rnd.nextInt(6) + 1;
+            int sum = die1 + die2;
+            System.out.println("\nYou rolled: " + die1 + " + " + die2 + " = " + sum);
+
+            if (sum == 7 || sum == 11) {
+                System.out.println("You rolled a natural. You win.");
+            } else if (sum == 2 || sum == 3 || sum == 12) {
+                System.out.println("Craps. You crapped out and lose.");
+            } else {
+                int point = sum;
+                System.out.println("Your point is: " + point);
+                boolean keepRolling = true;
+
+                while (keepRolling) {
+                    die1 = rnd.nextInt(6) + 1;
+                    die2 = rnd.nextInt(6) + 1;
+                    sum = die1 + die2;
+
+                    System.out.println("Trying for point. You rolled: " + die1 + " + " + die2 + " = " + sum);
+
+                    if (sum == point) {
+                        System.out.println("You made the point. You win.");
+                        keepRolling = false;
+                    } else if (sum == 7) {
+                        System.out.println("You rolled a 7. You lose.");
+                        keepRolling = false;
+                    }
+                }
+            }
+
+            System.out.print("Do you want to play again? (y/n): ");
+            String answer = input.nextLine().toLowerCase();
+            if (!answer.equals("y")) {
+                playAgain = false;
+                System.out.println("Thanks for playing");
+            }
         }
     }
 }
